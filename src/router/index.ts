@@ -4,6 +4,7 @@ import {
   RouteRecordRaw
 } from 'vue-router'
 const routerView = import('@/layout/index.vue')
+const routerViewTable = import('@/layout/table.vue')
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/login',
@@ -35,7 +36,18 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title:'table'
         },
-        component: () => import('@/views/table/index.vue')
+        redirect: '/home',
+        component: routerViewTable,
+        children: [
+          {
+            path: '/table/table1',
+            name: 'table1',
+            meta: {
+              title:'table1'
+            },
+            component: () => import('@/views/table/index.vue')
+          }
+        ]
       },
     ]
   },

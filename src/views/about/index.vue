@@ -11,20 +11,11 @@
     </el-form-item>
     <el-form-item label="Activity time">
       <el-col :span="11">
-        <el-date-picker
-          v-model="form.date1"
-          type="date"
-          placeholder="Pick a date"
-          style="width: 100%"
-        ></el-date-picker>
+        <el-date-picker v-model="form.date1" type="date" placeholder="Pick a date" style="width: 100%"></el-date-picker>
       </el-col>
       <el-col class="line" :span="2">-</el-col>
       <el-col :span="11">
-        <el-time-picker
-          v-model="form.date2"
-          placeholder="Pick a time"
-          style="width: 100%"
-        ></el-time-picker>
+        <el-time-picker v-model="form.date2" placeholder="Pick a time" style="width: 100%"></el-time-picker>
       </el-col>
     </el-form-item>
     <el-form-item label="Instant delivery">
@@ -68,12 +59,12 @@ export default {
         resource: '',
         desc: '',
       },
-    }
+    };
   },
   methods: {
     onSubmit() {
-      console.log('submit!')
+      console.log('submit!');
     },
   },
-}
+};
 </script>
