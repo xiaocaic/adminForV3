@@ -3,8 +3,23 @@ import {
   createWebHashHistory,
   RouteRecordRaw
 } from 'vue-router'
+import store from '@/store'
 const routerView = import('@/layout/index.vue')
 const routerViewTable = import('@/layout/table.vue')
+const home = import('@/views/home/index.vue')
+const table1 = import('@/views/table/index.vue')
+const about1 = import('@/views/about/index.vue')
+const btn = import('@/views/btn/index.vue')
+let routerMap = {
+  routerView,
+  routerViewTable,
+  home,
+  table1,
+  about1,
+}
+export let getComponent = (code) => {
+  return routerMap[code]
+}
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/login',
@@ -19,7 +34,6 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: '首页',
       icon:'document'
-      
     },
     children: [
       {
@@ -28,7 +42,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title:'首页'
         },
-        component: () => import('@/views/home/index.vue')
+        component: home
       },
       {
         path: '/table',
@@ -45,7 +59,7 @@ const routes: Array<RouteRecordRaw> = [
             meta: {
               title:'table1'
             },
-            component: () => import('@/views/table/index.vue')
+            component: table1
           }
         ]
       },
@@ -67,7 +81,15 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: '关于',
         },
-        component: () => import('@/views/about/index.vue')
+        component: about1
+      },
+      {
+        path: '/btn',
+        name: 'btn',
+        meta: {
+          title: '按钮',
+        },
+        component: btn
       },
     ]
   },
@@ -78,7 +100,6 @@ const routes: Array<RouteRecordRaw> = [
   },
   
 ]
-
 const router = createRouter({
   history: createWebHashHistory(),
   routes

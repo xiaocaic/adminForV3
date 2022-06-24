@@ -34,19 +34,16 @@ export default defineComponent({
     let router = useRouter();
     const store = useStore();
     let defaultActive = ref('/home');
-    const menuList = reactive([]);
-    router.options.routes.map((x) => {
-      if (x.meta) {
-        menuList.push(x);
-      }
-    });
+    let menuList = reactive([]);
+    store.dispatch('getrouterList');
+    menuList = store.state.navList;
+
     let routerPath = computed(() => {
       return router.currentRoute.value.path;
     });
     watch(
       () => router.currentRoute.value.path,
       (newValue, oldValue) => {
-        console.log(newValue, 'newValue');
         defaultActive.value = newValue;
       },
       { immediate: true }

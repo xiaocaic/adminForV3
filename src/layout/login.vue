@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="ruleForm" :model="ruleForm" status-icon :rules="rules" label-width="120px" class="demo-ruleForm">
+  <el-form ref="formName" :model="ruleForm" status-icon :rules="rules" label-width="120px" class="demo-ruleForm">
     <el-form-item label="账号" prop="account">
       <el-input v-model="ruleForm.account" placeholder="请输入账号" autocomplete="off"></el-input>
     </el-form-item>
@@ -37,15 +37,15 @@ const rules = reactive({
 });
 const formName = ref(null);
 const router = useRouter();
-const submitForm = (formName) => {
-  formName.validate();
+const submitForm = () => {
+  formName.value.validate();
   if (ruleForm.account && ruleForm.pass) {
     localStorage.setItem('pass', ruleForm.pass);
     router.push('/');
   }
 };
 const resetForm = () => {
-  formName.resetFields();
+  formName.value.resetFields();
 };
 </script>
 <style lang="scss">

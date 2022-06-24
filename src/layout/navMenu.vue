@@ -34,7 +34,10 @@ watch(
 );
 
 onMounted(() => {
-  store.dispatch('increment', JSON.parse(localStorage.getItem('navList')));
+  let list = reactive({
+    navList: JSON.parse(localStorage.getItem('navList')),
+  });
+  !!list.navList && store.dispatch('increment', list.navList);
 });
 const go = (routerItem) => {
   data.routerName = routerItem.name;

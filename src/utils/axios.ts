@@ -1,8 +1,9 @@
+import store from '@/store'
 import Axios from 'axios'
 import { ElMessage } from 'element-plus'
 import router from '../router'
 const baseURL = 'https://api.github.com'
-
+import useStore from 'vuex'
 const axios = Axios.create({
   baseURL,
   timeout: 20000 // 请求超时 20s
@@ -40,7 +41,7 @@ axios.interceptors.response.use(
 // 通过beforeEach钩子来判断用户是否登陆过 有无token
 const whiteList = ['/login'] // 不重定向白名单
 // const userInfo = getUserInfo()
- 
+const list = store.state.authList
 router.beforeEach((to, from, next) => {
   // 判断是否有登录过
   if (localStorage.getItem("pass")) {
@@ -50,7 +51,17 @@ router.beforeEach((to, from, next) => {
       if (to.matched.length === 0) {
         next('/404') 
       }
-      next() 
+      let isTrue = false
+      list.forEach(item => {
+        if (to.name == item) {
+          isTrue = true
+          } 
+      })
+      if (isTrue) {
+        next()
+      } else {
+        next('/login')
+      }
     }
   // 没有登录
   } else {
