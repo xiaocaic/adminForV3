@@ -1,11 +1,10 @@
-import store from '@/store'
 import Axios from 'axios'
 import { ElMessage } from 'element-plus'
-import router from '../router'
+import {downloadFile} from './index'
 const baseURL = 'https://api.github.com'
-import useStore from 'vuex'
 const axios = Axios.create({
   baseURL,
+  // withCredentials: true,  //跨域携带cookie
   timeout: 20000 // 请求超时 20s
 })
 
@@ -22,6 +21,10 @@ axios.interceptors.request.use(
 // 后置拦截器（获取到响应时的拦截）
 axios.interceptors.response.use(
   (response) => {
+    // config设置responseType为blob 处理文件下载
+    if (response.data instanceof Blob) {
+      return downloadFile(response);
+    }
     return response
   },
   (error) => {
@@ -36,57 +39,4 @@ axios.interceptors.response.use(
     return Promise.reject(error)
   }
 )
-
-
-// 通过beforeEach钩子来判断用户是否登陆过 有无token
-const whiteList = ['/login'] // 不重定向白名单
-// const userInfo = getUserInfo()
-const list = store.state.authList
-router.beforeEach((to, from, next) => {
-  // 判断是否有登录过
-  if (localStorage.getItem("pass")) {
-    if (to.path === '/login') {
-      next()
-    } else {
-      if (to.matched.length === 0) {
-        next('/404') 
-      }
-      let isTrue = false
-      list.forEach(item => {
-        if (to.name == item) {
-          isTrue = true
-          } 
-      })
-      if (isTrue) {
-        next()
-      } else {
-        next('/login')
-      }
-    }
-  // 没有登录
-  } else {
-    if (whiteList.indexOf(to.path) !== -1) {
-      next()
-    } else {
-      if (to.path.slice(1) !== '') {
-        if (to.matched.length === 0) {
-          router.push({
-            path: '/login'
-          })
-        } else {
-          router.push({
-            path: '/login',
-            query: {
-              redirect: to.path.slice(1)
-            }
-          })
-        }
-      } else {
-        router.push({
-          path: '/login'
-        })
-      }
-    }
-  }
-})
 export default axios

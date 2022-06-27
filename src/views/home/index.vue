@@ -23,8 +23,8 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, toRefs, onMounted } from 'vue';
-import axios from '../../utils/axios';
+import { defineComponent, reactive, toRefs, onMounted, onActivated } from 'vue';
+import { xPoet } from '@/api/home';
 export default defineComponent({
   setup() {
     const state = reactive({
@@ -32,20 +32,15 @@ export default defineComponent({
       url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
       userInfo: {},
     });
-    onMounted(() => {
+    onActivated(() => {
       getData();
     });
-    const getData = () => {
-      axios
-        .get('/users/XPoet')
-        .then((res) => {
-          if (res.status == 200) {
-            return (state.userInfo = res.data);
-          }
-        })
-        .catch((err) => {
-          console.log('err: ', err);
-        });
+    const getData = async () => {
+      let res = await xPoet();
+      console.log(res, 'res');
+      if (res.status == 200) {
+        state.userInfo = res.data;
+      }
     };
 
     return {

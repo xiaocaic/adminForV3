@@ -10,4 +10,10 @@
   </el-row>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { onMounted, onActivated } from 'vue';
+onMounted(() => {});
+onActivated(() => {
+  console.log('setup');
+});
+</script>
