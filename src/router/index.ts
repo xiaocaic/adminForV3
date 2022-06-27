@@ -3,23 +3,22 @@ import {
   createWebHashHistory,
   RouteRecordRaw
 } from 'vue-router'
-import store from '@/store'
-const routerView = import('@/layout/index.vue')
-const routerViewTable = import('@/layout/table.vue')
-const home = import('@/views/home/index.vue')
-const table1 = import('@/views/table/index.vue')
-const about1 = import('@/views/about/index.vue')
-const btn = import('@/views/btn/index.vue')
-let routerMap = {
-  routerView,
-  routerViewTable,
-  home,
-  table1,
-  about1,
-}
-export let getComponent = (code) => {
-  return routerMap[code]
-}
+const routerView = () =>import('@/layout/index.vue')
+const routerViewTable = () =>import('@/layout/table.vue')
+const home = () =>import('@/views/home/index.vue')
+const table1 = () =>import('@/views/table/index.vue')
+const about1 = () =>import('@/views/about/index.vue')
+const btn = () => import('@/views/btn/index.vue')
+// let routerMap = {
+//   routerView,
+//   routerViewTable,
+//   home,
+//   table1,
+//   about1,
+// }
+// export let getComponent = (code) => {
+//   return routerMap[code]
+// }
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/login',

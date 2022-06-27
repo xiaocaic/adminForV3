@@ -22,7 +22,7 @@ import navMenu from './navMenu.vue';
 import { defineProps, reactive } from 'vue';
 let props = defineProps();
 let data = reactive({
-  routerItem: '',
+  routerItem: {},
 });
 const menvRouterName = (routerItem) => {
   data.routerItem = routerItem;

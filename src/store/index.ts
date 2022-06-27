@@ -1,7 +1,5 @@
 
 import { createStore } from 'vuex'
-import { getComponent } from '../router/index'
-import router from '../router/index'
 const defaultState = {
   count: 0,
   routerInfo: [{
@@ -12,8 +10,6 @@ const defaultState = {
   getRouterList: [{
     path: '/',
     name: 'Home',
-    code:'routerView',
-    redirect: '/home',
     meta: {
       title: '首页',
       icon: 'document'
@@ -22,7 +18,6 @@ const defaultState = {
       {
         path: '/home',
         name: 'Home',
-        code:'home',
         meta: {
           title: '首页'
         },
@@ -30,17 +25,14 @@ const defaultState = {
       {
         path: '/table',
         name: 'table',
-        code:'routerViewTable',
         meta: {
           title: 'table'
         },
-        redirect: '/home',
         component: "",
         children: [
           {
             path: '/table/table1',
             name: 'table1',
-            code:'table1',
             meta: {
               title: 'table1'
             },
@@ -52,8 +44,6 @@ const defaultState = {
   {
     path: '/about',
     name: 'about',
-    redirect: '/about1',
-    code:'routerView',
     meta: {
       title: '关于',
       icon: 'location'
@@ -62,7 +52,6 @@ const defaultState = {
       {
         path: '/about1',
         name: 'about1',
-        code:'about1',
         meta: {
           title: '关于',
         },
