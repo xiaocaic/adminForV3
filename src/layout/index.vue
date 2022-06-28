@@ -19,7 +19,7 @@
 import Menu from './menu.vue';
 import Header from './header.vue';
 import navMenu from './navMenu.vue';
-import { defineProps, reactive } from 'vue';
+import { reactive } from 'vue';
 let props = defineProps();
 let data = reactive({
   routerItem: {},
