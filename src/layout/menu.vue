@@ -2,16 +2,24 @@
   <el-menu active-text-color="#ffd04b" background-color="#545c64" class="el-menu-vertical-demo" :default-active="defaultActive" text-color="#fff" @open="handleOpen" @close="handleClose">
     <el-sub-menu v-for="(item, index) of menuList" :index="item.path" :key="index">
       <template #title>
-        <el-icon><location /></el-icon>
+        <el-icon>
+          <component :is="item.meta.icon"></component>
+        </el-icon>
         <span>{{ item.meta.title }}</span>
       </template>
       <template v-for="(child, Lindex) of item.children" :key="Lindex">
         <!-- 二级 -->
-        <el-menu-item v-if="!!!child.children" :index="child.path" @click="go(child)">{{ child.meta.title }}</el-menu-item>
+        <el-menu-item v-if="!!!child.children" :index="child.path" @click="go(child)"
+          ><el-icon><component :is="child.meta.icon"></component></el-icon>{{ child.meta.title }}</el-menu-item
+        >
         <!-- 三级 -->
         <el-sub-menu v-else :index="child.path">
-          <template #title>{{ child.meta.title }}</template>
-          <el-menu-item v-for="(childItem, childIndex) of child.children" :key="childIndex" :index="childItem.path" @click="go(childItem)">{{ childItem.meta.title }}</el-menu-item>
+          <template #title
+            ><el-icon><component :is="child.meta.icon"></component></el-icon>{{ child.meta.title }}</template
+          >
+          <el-menu-item v-for="(childItem, childIndex) of child.children" :key="childIndex" :index="childItem.path" @click="go(childItem)"
+            ><el-icon><component :is="childItem.meta.icon"></component></el-icon>{{ childItem.meta.title }}</el-menu-item
+          >
         </el-sub-menu>
       </template>
     </el-sub-menu>
@@ -20,16 +28,9 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, ref, watch } from 'vue';
-import { Location, Document, Menu as IconMenu, Setting } from '@element-plus/icons';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 export default defineComponent({
-  components: {
-    Location,
-    Document,
-    Setting,
-    IconMenu,
-  },
   setup(props, ctx) {
     let router = useRouter();
     const store = useStore();

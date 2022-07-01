@@ -12,21 +12,23 @@ const defaultState = {
     name: 'Home',
     meta: {
       title: '首页',
-      icon: 'document'
+      icon: 'Camera'
     },
     children: [
       {
         path: '/home',
         name: 'Home',
         meta: {
-          title: '首页'
+          title: '首页',
+          icon: 'Camera'
         },
       },
       {
         path: '/table',
         name: 'table',
         meta: {
-          title: 'table'
+          title: 'table',
+          icon: 'Bicycle'
         },
         component: "",
         children: [
@@ -34,7 +36,8 @@ const defaultState = {
             path: '/table/table1',
             name: 'table1',
             meta: {
-              title: 'table1'
+              title: 'table1',
+              icon: 'Bicycle'
             },
           }
         ]
@@ -46,7 +49,7 @@ const defaultState = {
     name: 'about',
     meta: {
       title: '关于',
-      icon: 'location'
+      icon: 'Camera'
     },
     children: [
       {
@@ -54,6 +57,7 @@ const defaultState = {
         name: 'about1',
         meta: {
           title: '关于',
+          icon: 'Basketball'
         },
       },
       {
@@ -61,6 +65,7 @@ const defaultState = {
         name: 'btn',
         meta: {
           title: '按钮',
+          icon: 'Cellphone'
         },
       },
     ]

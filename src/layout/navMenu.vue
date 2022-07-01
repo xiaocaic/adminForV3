@@ -1,14 +1,20 @@
 <template>
   <div class="navMenuDiv">
-    <p v-for="(item, index) of data.routerInfo" :class="{ activeBg: data.routerName == item.name }" :key="index" @click="go(item)">
+    <p v-for="(item, index) of data.routerInfo" :class="{ activeBg: data.routerName == item.name }" :key="index" @click="go(item)" @contextmenu.prevent="openMenu(item, $event)">
       {{ item.meta.title }}
       <span @click.stop="delet(item)">x</span>
     </p>
+    <ul v-show="data.visible" :style="{ left: data.left + 'px', top: data.top + 'px' }" class="contextmenu">
+      <li @click="refreshSelectedTag()">刷新</li>
+      <li v-if="data.routerName == data.tag.name" @click="delet(data.tag)">关闭当前</li>
+      <li @click="closeOthersTags">关闭其他</li>
+      <li @click="closeAllTags()">关闭所有</li>
+    </ul>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref, toRefs, watch } from 'vue';
+import { onMounted, reactive, ref, toRefs, watch, unref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 const router = useRouter();
@@ -21,6 +27,12 @@ let data = reactive({
   newStoreList: [],
   isTrue: false,
   routerName: '',
+  visible: false,
+  left: 0,
+  top: 0,
+  tag: {
+    name: String,
+  },
 });
 
 watch(
@@ -46,6 +58,55 @@ const go = (routerItem) => {
   });
 };
 
+const openMenu = (tag, e) => {
+  data.visible = true;
+  data.left = e.pageX + 10;
+  data.top = e.pageY + 10;
+  data.tag = tag;
+};
+const closeAllTags = () => {
+  store.dispatch('increment', [
+    {
+      meta: { title: '首页', icon: 'document' },
+      name: 'Home',
+      path: '/home',
+    },
+  ]);
+  emit('menvRouterName', { name: 'Home' });
+  router.push({
+    path: '/home',
+  });
+};
+const refreshSelectedTag = () => {
+  router.go(0);
+};
+const closeOthersTags = () => {
+  data.newStoreList = [];
+  store.state.routerInfo.forEach((x) => {
+    if (x.name == data.tag.name) {
+      data.newStoreList.push(x);
+    }
+  });
+  store.dispatch('increment', data.newStoreList);
+  emit('menvRouterName', { name: data.newStoreList[0].name });
+  router.push({
+    path: data.newStoreList[0].path,
+  });
+};
+const closeMenu = () => {
+  data.visible = false;
+};
+watch(
+  () => data.visible,
+  (newVal) => {
+    if (newVal) {
+      document.body.addEventListener('click', closeMenu);
+    } else {
+      document.body.removeEventListener('click', closeMenu);
+    }
+  },
+  { immediate: true, deep: true }
+);
 const delet = (routerItem) => {
   data.newStoreList = [];
   if (!data.isTrue) {
@@ -99,6 +160,29 @@ const delet = (routerItem) => {
       display: inline-block;
       &:hover {
         background: gray;
+      }
+    }
+  }
+  .contextmenu {
+    margin: 0;
+    background: #fff;
+    z-index: 3000;
+    position: absolute;
+    list-style-type: none;
+    padding: 5px 0;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #333;
+    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
+    li {
+      margin: 0;
+      height: 30px;
+      line-height: 30px;
+      padding: 0px 16px;
+      cursor: pointer;
+      &:hover {
+        background: #eee;
       }
     }
   }
