@@ -3,15 +3,15 @@ import {
   createWebHashHistory,
   RouteRecordRaw
 } from 'vue-router'
-const routerView = () =>import('@/layout/index.vue')
-const routerViewTable = () =>import('@/layout/table.vue')
+const routerView = () =>import('@/layout/index.vue')  //一级路由视图
+const routerViewChildren = () =>import('@/layout/children.vue') //二级路由视图
 const home = () =>import('@/views/home/index.vue')
 const table1 = () =>import('@/views/table/index.vue')
 const about1 = () =>import('@/views/about/index.vue')
 const btn = () => import('@/views/btn/index.vue')
 // let routerMap = {
 //   routerView,
-//   routerViewTable,
+//   routerViewChildren,
 //   home,
 //   table1,
 //   about1,
@@ -50,7 +50,7 @@ const routes: Array<RouteRecordRaw> = [
           title:'table'
         },
         redirect: '/home',
-        component: routerViewTable,
+        component: routerViewChildren,
         children: [
           {
             path: '/table/table1',

@@ -3,10 +3,10 @@ import { createStore } from 'vuex'
 const defaultState = {
   count: 0,
   routerInfo: [{
-    meta: { title: '首页', icon: 'document' },
+    meta: { title: '首页'},
     name: "Home",
     path: "/home",
-  }],
+  }],//导航菜单
   getRouterList: [{
     path: '/',
     name: 'Home',
@@ -70,8 +70,8 @@ const defaultState = {
       },
     ]
   },
-  ], //菜单
-  navList: [],
+  ], //左侧菜单
+  navList: [],//导航菜单缓存
   authList:['Home','table','table1','about','about1','btn']  //登录鉴权
 }
 
@@ -120,8 +120,5 @@ export default createStore({
     }
   },
   getters: {
-    double(state: typeof defaultState) {
-      return 2 * state.count
-    }
   }
 })
