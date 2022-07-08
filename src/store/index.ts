@@ -67,12 +67,22 @@ const defaultState = {
           title: '按钮',
           icon: 'Cellphone'
         },
+        children: [
+          {
+            path: '/btn/btn1',
+            name: 'btn1',
+            meta: {
+              title: '按钮',
+              icon: 'Cellphone'
+            },
+          }
+        ]
       },
     ]
   },
   ], //左侧菜单
   navList: [],//导航菜单缓存
-  authList:['Home','table','table1','about','about1','btn']  //登录鉴权
+  authList:['Home','table','table1','about','about1','btn1']  //登录鉴权
 }
 
 const permission = (data) => {

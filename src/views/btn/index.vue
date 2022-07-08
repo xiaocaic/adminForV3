@@ -11,9 +11,9 @@
 </template>
 
 <script lang="ts" setup>
+import _ from 'lodash';
 import { onMounted, onActivated } from 'vue';
 onMounted(() => {});
-onActivated(() => {
-  console.log('setup');
-});
+const de = _.uniq([1, 2, 2, 3]);
+onActivated(() => {});
 </script>

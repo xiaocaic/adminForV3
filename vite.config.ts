@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig,loadEnv  } from 'vite'
 import vue from '@vitejs/plugin-vue'
 // 如果编辑器提示 path 模块找不到，则可以安装一下 @types/node -> npm i @types/node -D
 import { resolve } from 'path'
@@ -8,67 +8,91 @@ import { resolve } from 'path'
 import viteCompression from 'vite-plugin-compression'//gzip静态资源压缩
 // import { ElementPlusResolver,} from 'unplugin-vue-components/resolvers'
 // https://vitejs.dev/config/
-export default defineConfig({
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, 'src') // 设置 `@` 指向 `src` 目录
-    }
-  },
-  base: './', // 设置打包路径
-  server: {
-    host: '0.0.0.0',
-    port: 4000, // 设置服务启动端口号
-    open: true, // 设置服务启动时是否自动打开浏览器
-    cors: true // 允许跨域
-
-    // 设置代理，根据我们项目实际情况配置
-    // proxy: {
-    //   '/api': {
-    //     target: 'http://xxx.xxx.xxx.xxx:8000',
-    //     changeOrigin: true,
-    //     secure: false,
-    //     rewrite: (path) => path.replace('/api/', '/')
-    //   }
-    // }
-  },
-  plugins: [
-    vue(),
-    // AutoImport ({
-    //   imports: ["vue", "vue-router",'vuex'], // 自动导入vue和vue-router,vuex相关函数,不再需要再页面中通过 import { defineComponent, reactive, toRefs, onMounted, onActivated } from 'vue' 形式引入
-    //   dts: "src/auto-import.d.ts" // 生成 `auto-import.d.ts` 全局声明
-    // }),
-    // Components({
-    //   dts: true,// 全局声明
-    //   dirs: ['src/components'], // 按需加载的文件夹
-    //   resolvers: [ElementPlusResolver()],
-    // }),
-    viteCompression({ //gzip压缩
-      verbose: true,
-      disable: false,
-      threshold: 10240,
-      algorithm: 'gzip',
-      ext: '.gz',
-    }), 
-  ],
-  build: {
-    // chunkSizeWarningLimit:1500, //设置警告文件最大值
-    rollupOptions: {
-      output: {
-        chunkFileNames: 'static/js/[name]-[hash].js',
-        entryFileNames: 'static/js/[name]-[hash].js',
-        assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            return id.toString().split('node_modules/')[1].split('/')[0].toString();
-          }
+export default defineConfig(({ mode }) => {
+  const config = loadEnv(mode, './')
+  return ({
+    resolve: {
+      alias: {
+        '@': resolve(__dirname, 'src') // 设置 `@` 指向 `src` 目录
+      }
+    },
+    base: './', // 设置打包路径
+    server: {
+      host: '0.0.0.0',
+      port: 4000, // 设置服务启动端口号
+      open: true, // 设置服务启动时是否自动打开浏览器
+      cors: true, // 允许跨域
+  
+      // 设置代理，根据我们项目实际情况配置,如需设置多个代理，接着往下配置即可
+      proxy: {
+        '/api': {
+          target: config.VITE_BASIC_URL,
+          changeOrigin: true,
+          secure: false,
+          rewrite: (path) => path.replace(/^\/api/, '')
+        },
+        // '^/base': {
+        //   target: 'https://api.github.com',
+        //   changeOrigin: true,
+        //   secure: false,
+        //   rewrite: (path) => path.replace(/^\/base/, '')
+        // }
+      }
+    },
+    plugins: [
+      vue(),
+      // AutoImport ({
+      //   imports: ["vue", "vue-router",'vuex'], // 自动导入vue和vue-router,vuex相关函数,不再需要再页面中通过 import { defineComponent, reactive, toRefs, onMounted, onActivated } from 'vue' 形式引入
+      //   dts: "src/auto-import.d.ts" // 生成 `auto-import.d.ts` 全局声明
+      // }),
+      // Components({
+      //   dts: true,// 全局声明
+      //   dirs: ['src/components'], // 按需加载的文件夹
+      //   resolvers: [ElementPlusResolver()],
+      // }),
+      viteCompression({ //gzip压缩
+        verbose: true,
+        disable: false,
+        threshold: 10240,
+        algorithm: 'gzip',
+        ext: '.gz',
+      }), 
+    ],
+    build: {
+      // chunkSizeWarningLimit:1500, //设置警告文件最大值
+      rollupOptions: {
+        output: {
+          chunkFileNames: 'static/js/[name]-[hash].js',
+          entryFileNames: 'static/js/[name]-[hash].js',
+          assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              return id.toString().split('node_modules/')[1].split('/')[0].toString();
+            }
+          },
+        },
+      },
+      terserOptions: {
+        compress: {
+          drop_console: true, //清除console
+          drop_debugger: true, //清除debug
         },
       },
     },
-    terserOptions: {
-      compress: {
-        drop_console: true, //清除console
-        drop_debugger: true, //清除debug
-      },
-    },
-  },
+    // chainWebpack:(config) =>{
+    //   config.module
+    //   .rule('vue')
+    //   .use('vue-loader')
+    //   .tap(options => {
+    //     options.compilerOptions = {
+    //       ...options.compilerOptions,
+    //       isCustomElement: tag => {
+    //         return ['conversation-list', 'message-list', 'message-editor'].indexOf(tag) !== -1
+    //       }
+    //     }
+    //     return options
+    //   })
+    //   .end()
+    //   }
+  })
 })

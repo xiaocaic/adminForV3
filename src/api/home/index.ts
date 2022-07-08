@@ -3,7 +3,7 @@ import axios from "@/utils/axios";
 //lodaing配置
 export const xPoet = (params?: any): Promise<any> =>
   axios.get(
-    "/users/XPoet",
+    "/api/users/XPoet", //如配置了不同的代理，适用方法如下："/base/users/XPoet"
     { params }
   ); 
 

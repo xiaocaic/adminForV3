@@ -88,7 +88,17 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: '按钮',
         },
-        component: btn
+        component: routerViewChildren,
+        children: [
+          {
+            path: '/btn/btn1',
+            name: 'btn1',
+            meta: {
+              title:'btn1'
+            },
+            component: btn
+          }
+        ]
       },
     ]
   },

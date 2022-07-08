@@ -1,7 +1,7 @@
 import Axios from 'axios'
 import { ElMessage } from 'element-plus'
 import {downloadFile} from './index'
-const baseURL = 'https://api.github.com'
+let baseURL = ''
 const axios = Axios.create({
   baseURL,
   // withCredentials: true,  //跨域携带cookie
