@@ -4,7 +4,7 @@
     <Menu @menvRouterName="menvRouterName" />
   </div>
   <navMenu :menuItem="data.routerItem" @menvRouterName="menvRouterName" />
-  <div class="routerView">
+  <div class="routerView noSelect">
     <router-view v-slot="{ Component }">
       <transition name="fade-transform" mode="out-in">
         <keep-alive>

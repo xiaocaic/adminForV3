@@ -47,7 +47,6 @@
 
 <script setup lang="ts">
 import { reactive } from '@vue/reactivity';
-import { type } from 'os';
 type dataTypes = {
   form: Object;
 };

@@ -7,7 +7,7 @@ import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import './utils/permission'
-
+import '../public/public.css'
 // import { defineCustomElements, imkit } from '@rongcloud/imkit' // imkit 为核心模块
 // defineCustomElements() // im
 
