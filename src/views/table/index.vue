@@ -6,8 +6,19 @@
       <el-table-column label="Address Info">
         <el-table-column prop="state" label="State" width="120" />
         <el-table-column prop="city" label="City" width="120" />
-        <el-table-column prop="address" label="Address" />
-        <el-table-column prop="zip" label="Zip" width="120" />
+        <el-table-column prop="address" label="Address" width="90" show-overflow-tooltip></el-table-column>
+        <el-table-column  label="Zip" width="120">
+          <template  #default="scope">
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              :content="scope.row.zip"
+              placement="top-start"
+            >
+              <p>{{scope.row.zip}}</p>
+            </el-tooltip>
+          </template>
+        </el-table-column>
       </el-table-column>
     </el-table-column>
   </el-table>
